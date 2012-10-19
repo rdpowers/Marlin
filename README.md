@@ -1,3 +1,11 @@
+INFO:
+--------
+I'm modifying this Marlin RC to test its viability as firmware for the HackMelb CCHS little CNC mill.
+
+TODO: TEST. Customize LCD.
+
+Below is the markdown from trunk.
+
 WARNING: 
 --------
 THIS IS RELEASE CANDIDATE 2 FOR MARLIN 1.0.0
