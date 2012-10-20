@@ -13,7 +13,7 @@
 
 // This determines the communication speed of the printer
 //#define BAUDRATE 250000
-#define BAUDRATE 9600
+#define BAUDRATE 115200
 
 //// The following define selects which electronics board you have. Please choose the one that matches your setup
 // Gen7 custom (Alfons3 Version) = 10 "https://github.com/Alfons3/Generation_7_Electronics"
@@ -75,6 +75,7 @@
 // The minimal temperature defines the temperature below which the heater will not be enabled It is used
 // to check that the wiring to the thermistor is not broken. 
 // Otherwise this would lead to the heater being powered on all the time.
+/*
 #define HEATER_0_MINTEMP 5
 #define HEATER_1_MINTEMP 5
 #define HEATER_2_MINTEMP 5
@@ -87,6 +88,7 @@
 #define HEATER_1_MAXTEMP 275
 #define HEATER_2_MAXTEMP 275
 #define BED_MAXTEMP 150
+*/
 
 // If your bed has low resistance e.g. .6 ohm and throws the fuse you can duty cycle it to reduce the
 // average current. The value should be an integer and the heat bed will be turned on for 1 interval of
@@ -161,9 +163,9 @@
 
 //this prevents dangerous Extruder moves, i.e. if the temperature is under the limit
 //can be software-disabled for whatever purposes by
-#define PREVENT_DANGEROUS_EXTRUDE
+//#define PREVENT_DANGEROUS_EXTRUDE
 //if PREVENT_DANGEROUS_EXTRUDE is on, you can still disable (uncomment) very long bits of extrusion separately.
-#define PREVENT_LENGTHY_EXTRUDE
+//#define PREVENT_LENGTHY_EXTRUDE
 
 #define EXTRUDE_MINTEMP 170
 #define EXTRUDE_MAXLENGTH (X_MAX_LENGTH+Y_MAX_LENGTH) //prevent extrusion of very large distances.

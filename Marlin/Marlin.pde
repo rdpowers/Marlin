@@ -958,7 +958,7 @@ void process_commands()
         }
       }
      break;
-/********* REALLY DON'T NEED ALL THESE CODES FOR CNC CONTROL*****
+
       case 104: // M104
       if(setTargetedHotend(104)){
         break;
@@ -973,7 +973,7 @@ void process_commands()
       if(setTargetedHotend(105)){
         break;
       }
-      #if (TEMP_0_PIN > -1)
+/*      #if (TEMP_0_PIN > -1)
         SERIAL_PROTOCOLPGM("ok T:");
         SERIAL_PROTOCOL_F(degHotend(tmp_extruder),1); 
         SERIAL_PROTOCOLPGM(" /");
@@ -995,7 +995,7 @@ void process_commands()
         SERIAL_PROTOCOLPGM(" B@:");
         SERIAL_PROTOCOL(getHeaterPower(-1));  
 
-        SERIAL_PROTOCOLLN("");
+        SERIAL_PROTOCOLLN("");*/
       return;
       break;
     case 109: 
@@ -1102,7 +1102,7 @@ void process_commands()
         previous_millis_cmd = millis();
     #endif
         break;
-*/
+
     #if FAN_PIN > -1
       case 106: //M106 Fan On
         if (code_seen('S')){
