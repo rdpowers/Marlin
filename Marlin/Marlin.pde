@@ -331,7 +331,7 @@ void setup()
   }
 
 
-  tp_init();    // Initialize temperature loop 
+  //tp_init();    // Initialize temperature loop 
   plan_init();  // Initialize planner;
   st_init();    // Initialize stepper;
   wd_init();
@@ -375,7 +375,7 @@ void loop()
     bufindr = (bufindr + 1)%BUFSIZE;
   }
   //check heater every n milliseconds
-  manage_heater();
+  //manage_heater();
   manage_inactivity();
   checkHitEndstops();
   LCD_STATUS;
@@ -958,7 +958,8 @@ void process_commands()
         }
       }
      break;
-    case 104: // M104
+/********* REALLY DON'T NEED ALL THESE CODES FOR CNC CONTROL*****
+      case 104: // M104
       if(setTargetedHotend(104)){
         break;
       }
@@ -1020,14 +1021,14 @@ void process_commands()
       setWatch();
       codenum = millis(); 
 
-      /* See if we are heating up or cooling down */
+      // See if we are heating up or cooling down
       bool target_direction = isHeatingHotend(tmp_extruder); // true if heating, false if cooling
 
       #ifdef TEMP_RESIDENCY_TIME
         long residencyStart;
         residencyStart = -1;
-        /* continue to loop until we have reached the target temp   
-          _and_ until TEMP_RESIDENCY_TIME hasn't passed since we reached it */
+        // continue to loop until we have reached the target temp   
+        //  _and_ until TEMP_RESIDENCY_TIME hasn't passed since we reached it
         while((residencyStart == -1) ||
               (residencyStart >= 0 && (((unsigned int) (millis() - residencyStart)) < (TEMP_RESIDENCY_TIME * 1000UL))) ) {
       #else
@@ -1059,8 +1060,8 @@ void process_commands()
           manage_inactivity();
           LCD_STATUS;
         #ifdef TEMP_RESIDENCY_TIME
-            /* start/restart the TEMP_RESIDENCY_TIME timer whenever we reach target temp for the first time
-              or when current temp falls outside the hysteresis after target temp was reached */
+            // start/restart the TEMP_RESIDENCY_TIME timer whenever we reach target temp for the first time
+            //  or when current temp falls outside the hysteresis after target temp was reached 
           if ((residencyStart == -1 &&  target_direction && (degHotend(tmp_extruder) >= (degTargetHotend(tmp_extruder)-TEMP_WINDOW))) ||
               (residencyStart == -1 && !target_direction && (degHotend(tmp_extruder) <= (degTargetHotend(tmp_extruder)+TEMP_WINDOW))) ||
               (residencyStart > -1 && labs(degHotend(tmp_extruder) - degTargetHotend(tmp_extruder)) > TEMP_HYSTERESIS) ) 
@@ -1101,7 +1102,7 @@ void process_commands()
         previous_millis_cmd = millis();
     #endif
         break;
-
+*/
     #if FAN_PIN > -1
       case 106: //M106 Fan On
         if (code_seen('S')){

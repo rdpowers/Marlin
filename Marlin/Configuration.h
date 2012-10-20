@@ -8,12 +8,12 @@
 //User specified version info of THIS file to display in [Pronterface, etc] terminal window during startup.
 //Implementation of an idea by Prof Braino to inform user that any changes made
 //to THIS file by the user have been successfully uploaded into firmware.
-#define STRING_VERSION_CONFIG_H "2012-10-19" //Personal revision number for changes to THIS file.
-#define STRING_CONFIG_H_AUTHOR "rpowers" //Who made the changes.
+#define STRING_VERSION_CONFIG_H "2012-10-20" //Personal revision number for changes to THIS file.
+#define STRING_CONFIG_H_AUTHOR "rdpowers" //Who made the changes.
 
 // This determines the communication speed of the printer
 //#define BAUDRATE 250000
-#define BAUDRATE 115200
+#define BAUDRATE 9600
 
 //// The following define selects which electronics board you have. Please choose the one that matches your setup
 // Gen7 custom (Alfons3 Version) = 10 "https://github.com/Alfons3/Generation_7_Electronics"
@@ -32,7 +32,6 @@
 // Gen3+ =9
 // Megatronics =70
 
-//CLOSEST GUESS... MODIFIED PINS.H ACCORDINGLY
 #ifndef MOTHERBOARD
 #define MOTHERBOARD 62
 #endif
@@ -63,16 +62,15 @@
 // 52 is 200k thermistor - ATC Semitec 204GT-2 (1k pullup)
 // 55 is 100k thermistor - ATC Semitec 104GT-2 (Used in ParCan) (1k pullup)
 
-//DISABLE ALL
 #define TEMP_SENSOR_0 0
 #define TEMP_SENSOR_1 0
 #define TEMP_SENSOR_2 0
 #define TEMP_SENSOR_BED 0
 
 // Actual temperature must be close to target for this long before M109 returns success
-#define TEMP_RESIDENCY_TIME 10	// (seconds)
-#define TEMP_HYSTERESIS 3       // (degC) range of +/- temperatures considered "close" to the target one
-#define TEMP_WINDOW     1       // (degC) Window around target to start the recidency timer x degC early.
+//#define TEMP_RESIDENCY_TIME 10	// (seconds)
+//#define TEMP_HYSTERESIS 3       // (degC) range of +/- temperatures considered "close" to the target one
+//#define TEMP_WINDOW     1       // (degC) Window around target to start the recidency timer x degC early.
 
 // The minimal temperature defines the temperature below which the heater will not be enabled It is used
 // to check that the wiring to the thermistor is not broken. 
@@ -97,7 +95,7 @@
 
 // PID settings:
 // Comment the following line to disable PID and enable bang-bang.
-#define PIDTEMP
+//#define PIDTEMP
 #define PID_MAX 255 // limits current to nozzle; 255=full current
 #ifdef PIDTEMP
   //#define PID_DEBUG // Sends debug data to the serial port. 
@@ -178,9 +176,7 @@
 // #define COREXY
 
 // corse Endstop Settings
-
-//I DON'T THINK WE NEED PULLUPS. MIGHT BE WRONG
-//#define ENDSTOPPULLUPS // Comment this out (using // at the start of the line) to disable the endstop pullup resistors
+#define ENDSTOPPULLUPS // Comment this out (using // at the start of the line) to disable the endstop pullup resistors
 
 #ifndef ENDSTOPPULLUPS
   // fine Enstop settings: Individual Pullups. will be ignord if ENDSTOPPULLUPS is defined
@@ -219,7 +215,6 @@ const bool Z_ENDSTOPS_INVERTING = true; // set to true to invert the logic of th
 #define DISABLE_Z false
 #define DISABLE_E false // For all extruders
 
-//NOT SURE HERE, WILL TAKE SOME TESTING
 #define INVERT_X_DIR false    // for Mendel set to false, for Orca set to true
 #define INVERT_Y_DIR false    // for Mendel set to true, for Orca set to false
 #define INVERT_Z_DIR false     // for Mendel set to false, for Orca set to true
@@ -231,7 +226,6 @@ const bool Z_ENDSTOPS_INVERTING = true; // set to true to invert the logic of th
 // Sets direction of endstops when homing; 1=MAX, -1=MIN
 #define X_HOME_DIR -1
 #define Y_HOME_DIR -1
-//HOPEFULLY THESE ARE THE DIRECTIONS I THINK THEY ARE
 #define Z_HOME_DIR 1
 
 #define min_software_endstops true //If true, axis won't move to coordinates less than HOME_POS.
@@ -258,17 +252,14 @@ const bool Z_ENDSTOPS_INVERTING = true; // set to true to invert the logic of th
 #define MANUAL_Z_HOME_POS 0
 
 //// MOVEMENT SETTINGS
-//CHANGING THIS TO 3
-#define NUM_AXIS 3 // The axis order in all axis related arrays is X, Y, Z, E
-//#define HOMING_FEEDRATE {50*60, 50*60, 4*60, 0}  // set the homing speeds (mm/min)
-//GOING TO SLOW THIS DOWN A FAIR BIT UNTIL WE'RE SURE
-#define HOMING_FEEDRATE {50*10, 50*10, 4*60}  // set the homing speeds (mm/min)
+#define NUM_AXIS 4 // The axis order in all axis related arrays is X, Y, Z, E
+#define HOMING_FEEDRATE {50*60, 50*60, 4*60, 0}  // set the homing speeds (mm/min)
 
 // default settings 
-//ASSUME THE UNIT IS MM
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {506,506,506}  
-#define DEFAULT_MAX_FEEDRATE          {800, 800, 800}    // (mm/sec)    
-#define DEFAULT_MAX_ACCELERATION      {9000,9000,100}    // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for skeinforge 40+, for older versions raise them a lot.
+
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {506,506,506,760*1.1}  // default steps per unit for ultimaker 
+#define DEFAULT_MAX_FEEDRATE          {50, 50, 50, 45}    // (mm/sec)    
+#define DEFAULT_MAX_ACCELERATION      {9000,9000,100,10000}    // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for skeinforge 40+, for older versions raise them a lot.
 
 #define DEFAULT_ACCELERATION          3000    // X, Y, Z and E max acceleration in mm/s^2 for printing moves 
 #define DEFAULT_RETRACT_ACCELERATION  3000   // X, Y, Z and E max acceleration in mm/s^2 for r retracts
@@ -276,7 +267,7 @@ const bool Z_ENDSTOPS_INVERTING = true; // set to true to invert the logic of th
 // 
 #define DEFAULT_XYJERK                20.0    // (mm/sec)
 #define DEFAULT_ZJERK                 0.4     // (mm/sec)
-//#define DEFAULT_EJERK                 5.0    // (mm/sec)
+#define DEFAULT_EJERK                 5.0    // (mm/sec)
 
 //===========================================================================
 //=============================Additional Features===========================
@@ -309,7 +300,7 @@ const bool Z_ENDSTOPS_INVERTING = true; // set to true to invert the logic of th
 
 #ifdef ULTIPANEL
 //  #define NEWPANEL  //enable this if you have a click-encoder panel
-//  #define SDSUPPORT
+  #define SDSUPPORT
   #define ULTRA_LCD
   #define LCD_WIDTH 20
   #define LCD_HEIGHT 4
@@ -325,8 +316,8 @@ const bool Z_ENDSTOPS_INVERTING = true; // set to true to invert the logic of th
 
 #else //no panel but just lcd 
   #ifdef ULTRA_LCD
-    #define LCD_WIDTH 20
-    #define LCD_HEIGHT 4    
+    #define LCD_WIDTH 16
+    #define LCD_HEIGHT 2    
   #endif
 #endif
 

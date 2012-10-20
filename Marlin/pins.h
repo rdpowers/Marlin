@@ -622,7 +622,7 @@
 #define PS_ON_PIN          -1
 #define KILL_PIN           -1
 
-#define HEATER_0_PIN       -1 // (extruder)
+#define HEATER_0_PIN       21 //pin 21 apparently unused (extruder)
 #define HEATER_1_PIN       -1
 #define HEATER_2_PIN       -1
 

@@ -44,10 +44,10 @@ MCU = atmega644p
 # Here you select "arduino", "Sanguino", "Gen7", ...
 HARDWARE_VARIANT 		= Sanguino
 # This defined the board you are compiling for
-HARDWARE_MOTHERBOARD	= 91
+HARDWARE_MOTHERBOARD	= 62
 
 # Arduino source install directory
-INSTALL_DIR = ../../arduino-0022
+INSTALL_DIR = /usr/share/arduino
 
 # Arduino containd the main source code for the Arduino
 # Libraries, the "hardware variant" are for boards
@@ -63,11 +63,11 @@ endif
 
 # Be sure to regenerate speed_lookuptable.h with create_speed_lookuptable.py
 # if you are setting this to something other than 16MHz
-F_CPU = 16000000
+F_CPU = 20000000L
 
-UPLOAD_RATE = 115200
-AVRDUDE_PROGRAMMER = arduino
-PORT = /dev/arduino
+UPLOAD_RATE = 57600
+AVRDUDE_PROGRAMMER = usbtiny
+PORT = usb
 
 TARGET = $(notdir $(CURDIR))
 
@@ -140,9 +140,10 @@ LDFLAGS = -lm
 # Programming support using avrdude. Settings and variables.
 AVRDUDE_PORT = $(PORT)
 AVRDUDE_WRITE_FLASH = -U flash:w:applet/$(TARGET).hex:i
-AVRDUDE_FLAGS = -D -C $(INSTALL_DIR)/hardware/tools/avrdude.conf \
-	-p $(MCU) -P $(AVRDUDE_PORT) -c $(AVRDUDE_PROGRAMMER) \
-	-b $(UPLOAD_RATE)
+#AVRDUDE_FLAGS = -D -C $(INSTALL_DIR)/hardware/tools/avrdude.conf \
+#	-p $(MCU) -P $(AVRDUDE_PORT) -c $(AVRDUDE_PROGRAMMER) \
+#	-b $(UPLOAD_RATE)
+AVRDUDE_FLAGS = -c $(AVRDUDE_PROGRAMMER) -P $(AVRDUDE_PORT) -p $(MCU)  
 
 # Program settings
 CC = $(AVR_TOOLS_PATH)avr-gcc
