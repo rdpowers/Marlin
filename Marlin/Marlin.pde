@@ -973,7 +973,7 @@ void process_commands()
       if(setTargetedHotend(105)){
         break;
       }
-/*      #if (TEMP_0_PIN > -1)
+      #if (TEMP_0_PIN > -1)
         SERIAL_PROTOCOLPGM("ok T:");
         SERIAL_PROTOCOL_F(degHotend(tmp_extruder),1); 
         SERIAL_PROTOCOLPGM(" /");
@@ -985,8 +985,8 @@ void process_commands()
           SERIAL_PROTOCOL_F(degTargetBed(),1);
         #endif //TEMP_BED_PIN
       #else
-        SERIAL_ERROR_START;
-        SERIAL_ERRORLNPGM(MSG_ERR_NO_THERMISTORS);
+//        SERIAL_ERROR_START;
+//        SERIAL_ERRORLNPGM(MSG_ERR_NO_THERMISTORS);
       #endif
 
         SERIAL_PROTOCOLPGM(" @:");
@@ -995,7 +995,7 @@ void process_commands()
         SERIAL_PROTOCOLPGM(" B@:");
         SERIAL_PROTOCOL(getHeaterPower(-1));  
 
-        SERIAL_PROTOCOLLN("");*/
+        SERIAL_PROTOCOLLN("");
       return;
       break;
     case 109: 
