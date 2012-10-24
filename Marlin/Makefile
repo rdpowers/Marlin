@@ -44,7 +44,7 @@ MCU = atmega644p
 # Here you select "arduino", "Sanguino", "Gen7", ...
 HARDWARE_VARIANT 		= Sanguino
 # This defined the board you are compiling for
-HARDWARE_MOTHERBOARD	= 62
+HARDWARE_MOTHERBOARD	= 99
 
 # Arduino source install directory
 INSTALL_DIR = /usr/share/arduino
@@ -65,7 +65,7 @@ endif
 # if you are setting this to something other than 16MHz
 F_CPU = 20000000L
 
-UPLOAD_RATE = 57600
+UPLOAD_RATE = 115200
 AVRDUDE_PROGRAMMER = usbtiny
 PORT = usb
 
@@ -143,7 +143,7 @@ AVRDUDE_WRITE_FLASH = -U flash:w:applet/$(TARGET).hex:i
 #AVRDUDE_FLAGS = -D -C $(INSTALL_DIR)/hardware/tools/avrdude.conf \
 #	-p $(MCU) -P $(AVRDUDE_PORT) -c $(AVRDUDE_PROGRAMMER) \
 #	-b $(UPLOAD_RATE)
-AVRDUDE_FLAGS = -c $(AVRDUDE_PROGRAMMER) -P $(AVRDUDE_PORT) -p $(MCU)  
+AVRDUDE_FLAGS = -c $(AVRDUDE_PROGRAMMER) -P $(AVRDUDE_PORT) -p $(MCU) -V 
 
 # Program settings
 CC = $(AVR_TOOLS_PATH)avr-gcc

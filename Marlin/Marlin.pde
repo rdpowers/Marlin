@@ -958,8 +958,7 @@ void process_commands()
         }
       }
      break;
-
-      case 104: // M104
+    case 104: // M104
       if(setTargetedHotend(104)){
         break;
       }
@@ -985,15 +984,15 @@ void process_commands()
           SERIAL_PROTOCOL_F(degTargetBed(),1);
         #endif //TEMP_BED_PIN
       #else
-//        SERIAL_ERROR_START;
-//        SERIAL_ERRORLNPGM(MSG_ERR_NO_THERMISTORS);
+        //SERIAL_ERROR_START;
+        //SERIAL_ERRORLNPGM(MSG_ERR_NO_THERMISTORS);
       #endif
+	SERIAL_PROTOCOLPGM("ok T:1337 /")
+//        SERIAL_PROTOCOLPGM(" @:");
+//        SERIAL_PROTOCOL(getHeaterPower(tmp_extruder));  
 
-        SERIAL_PROTOCOLPGM(" @:");
-        SERIAL_PROTOCOL(getHeaterPower(tmp_extruder));  
-
-        SERIAL_PROTOCOLPGM(" B@:");
-        SERIAL_PROTOCOL(getHeaterPower(-1));  
+        //SERIAL_PROTOCOLPGM(" B@:");
+        //SERIAL_PROTOCOL(getHeaterPower(-1));  
 
         SERIAL_PROTOCOLLN("");
       return;
@@ -1021,14 +1020,14 @@ void process_commands()
       setWatch();
       codenum = millis(); 
 
-      // See if we are heating up or cooling down
+      /* See if we are heating up or cooling down */
       bool target_direction = isHeatingHotend(tmp_extruder); // true if heating, false if cooling
 
       #ifdef TEMP_RESIDENCY_TIME
         long residencyStart;
         residencyStart = -1;
-        // continue to loop until we have reached the target temp   
-        //  _and_ until TEMP_RESIDENCY_TIME hasn't passed since we reached it
+        /* continue to loop until we have reached the target temp   
+          _and_ until TEMP_RESIDENCY_TIME hasn't passed since we reached it */
         while((residencyStart == -1) ||
               (residencyStart >= 0 && (((unsigned int) (millis() - residencyStart)) < (TEMP_RESIDENCY_TIME * 1000UL))) ) {
       #else
@@ -1060,8 +1059,8 @@ void process_commands()
           manage_inactivity();
           LCD_STATUS;
         #ifdef TEMP_RESIDENCY_TIME
-            // start/restart the TEMP_RESIDENCY_TIME timer whenever we reach target temp for the first time
-            //  or when current temp falls outside the hysteresis after target temp was reached 
+            /* start/restart the TEMP_RESIDENCY_TIME timer whenever we reach target temp for the first time
+              or when current temp falls outside the hysteresis after target temp was reached */
           if ((residencyStart == -1 &&  target_direction && (degHotend(tmp_extruder) >= (degTargetHotend(tmp_extruder)-TEMP_WINDOW))) ||
               (residencyStart == -1 && !target_direction && (degHotend(tmp_extruder) <= (degTargetHotend(tmp_extruder)+TEMP_WINDOW))) ||
               (residencyStart > -1 && labs(degHotend(tmp_extruder) - degTargetHotend(tmp_extruder)) > TEMP_HYSTERESIS) ) 

@@ -461,18 +461,18 @@ ISR(TIMER1_COMPA_vect)
         #endif
       }
     }
-/*
+
     #ifndef ADVANCE
       if ((out_bits & (1<<E_AXIS)) != 0) {  // -direction
-        REV_E_DIR();
+        //REV_E_DIR();
         count_direction[E_AXIS]=-1;
       }
       else { // +direction
-        NORM_E_DIR();
+        //NORM_E_DIR();
         count_direction[E_AXIS]=1;
       }
     #endif //!ADVANCE
-*/    
+    
 
     
     for(int8_t i=0; i < step_loops; i++) { // Take multiple steps per interrupt (For high speed moves) 
@@ -575,17 +575,16 @@ ISR(TIMER1_COMPA_vect)
           WRITE(Z2_STEP_PIN, INVERT_Z_STEP_PIN);
         #endif
       }
-/*
+
       #ifndef ADVANCE
         counter_e += current_block->steps_e;
         if (counter_e > 0) {
-          WRITE_E_STEP(!INVERT_E_STEP_PIN);
+          //WRITE_E_STEP(!INVERT_E_STEP_PIN);
           counter_e -= current_block->step_event_count;
           count_position[E_AXIS]+=count_direction[E_AXIS];
-          WRITE_E_STEP(INVERT_E_STEP_PIN);
+          //WRITE_E_STEP(INVERT_E_STEP_PIN);
         }
       #endif //!ADVANCE
-*/
       step_events_completed += 1;  
       if(step_events_completed >= current_block->step_event_count) break;
     }

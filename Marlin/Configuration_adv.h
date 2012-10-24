@@ -39,11 +39,11 @@
 // you exit the value by any M109 without F*
 // Also, if the temperature is set to a value <mintemp, it is not changed by autotemp.
 // on an ultimaker, some initial testing worked with M109 S215 B260 F1 in the start.gcode
-//#define AUTOTEMP
+#define AUTOTEMP
 #ifdef AUTOTEMP
   #define AUTOTEMP_OLDWEIGHT 0.98
 #endif
-/*
+
 //  extruder run-out prevention. 
 //if the machine is idle, and the temperature over MINTEMP, every couple of SECONDS some filament is extruded
 //#define EXTRUDER_RUNOUT_PREVENT  
@@ -52,25 +52,24 @@
 #define EXTRUDER_RUNOUT_ESTEPS 14. //mm filament
 #define EXTRUDER_RUNOUT_SPEED 1500.  //extrusion speed
 #define EXTRUDER_RUNOUT_EXTRUDE 100
-*/
+
 //These defines help to calibrate the AD595 sensor in case you get wrong temperature measurements.
 //The measured temperature is defined as "actualTemp = (measuredTemp * TEMP_SENSOR_AD595_GAIN) + TEMP_SENSOR_AD595_OFFSET"
 #define TEMP_SENSOR_AD595_OFFSET 0.0
 #define TEMP_SENSOR_AD595_GAIN   1.0
-/*
+
 //This is for controlling a fan to cool down the stepper drivers
 //it will turn on when any driver is enabled
 //and turn off after the set amount of seconds from last driver being disabled again
 //#define CONTROLLERFAN_PIN 23 //Pin used for the fan to cool controller, comment out to disable this function
 #define CONTROLLERFAN_SEC 60 //How many seconds, after all motors were disabled, the fan should run
-*/
+
 //===========================================================================
 //=============================Mechanical Settings===========================
 //===========================================================================
 
 // This defines the number of extruders
 #define EXTRUDERS 1
-
 
 #define ENDSTOPS_ONLY_FOR_HOMING // If defined the endstops will only be used for homing
 
@@ -212,7 +211,7 @@
 #endif // ADVANCE
 
 // Arc interpretation settings:
-#define MM_PER_ARC_SEGMENT 1
+#define MM_PER_ARC_SEGMENT .1
 #define N_ARC_CORRECTION 25
 
 const int dropsegments=5; //everything with less than this number of steps will be ignored as move and joined with the next movement
