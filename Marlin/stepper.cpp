@@ -273,21 +273,22 @@ FORCE_INLINE void trapezoid_generator_reset() {
   OCR1A = acceleration_time;
   
 //    SERIAL_ECHO_START;
-//    SERIAL_ECHOPGM("advance :");
-//    SERIAL_ECHO(current_block->advance/256.0);
-//    SERIAL_ECHOPGM("advance rate :");
-//    SERIAL_ECHO(current_block->advance_rate/256.0);
-//    SERIAL_ECHOPGM("initial advance :");
-//  SERIAL_ECHO(current_block->initial_advance/256.0);
-//    SERIAL_ECHOPGM("final advance :");
-//    SERIAL_ECHOLN(current_block->final_advance/256.0);
-    
+/*    SERIAL_ECHOPGM("advance :");
+    SERIAL_ECHO(current_block->advance/256.0);
+    SERIAL_ECHOPGM("advance rate :");
+    SERIAL_ECHO(current_block->advance_rate/256.0);
+    SERIAL_ECHOPGM("initial advance :");
+  SERIAL_ECHO(current_block->initial_advance/256.0);
+    SERIAL_ECHOPGM("final advance :");
+    SERIAL_ECHOLN(current_block->final_advance/256.0);*/
+//    SERIAL_PROTOCOLPGM("trap gen in stepper.cpp end.\r\n")    
 }
 
 // "The Stepper Driver Interrupt" - This timer interrupt is the workhorse.  
 // It pops blocks from the block_buffer and executes them by pulsing the stepper pins appropriately. 
 ISR(TIMER1_COMPA_vect)
 {    
+  
   // If there is no current block, attempt to pop one from the buffer
   if (current_block == NULL) {
     // Anything in the buffer?
@@ -325,7 +326,16 @@ ISR(TIMER1_COMPA_vect)
     // Set direction en check limit switches
     if ((out_bits & (1<<X_AXIS)) != 0) {   // stepping along -X axis
       #if !defined COREXY  //NOT COREXY
-        WRITE(X_DIR_PIN, INVERT_X_DIR);
+        //WRITE(X_DIR_PIN, INVERT_X_DIR);
+	//EXPLICIT SET X_DIR PIN
+	if(INVERT_X_DIR){  	  
+	  //if inverting, set X_DIR High for X-
+	  STEPPING_PORT |= 1<<EX_X_DIRECTION_BIT;
+	}
+	else{
+	  //else, set X_DIR Low for X-
+	  STEPPING_PORT &= ~(1<<EX_X_DIRECTION_BIT);	  
+	}//end EXPLICIT
       #endif
       count_direction[X_AXIS]=-1;
       CHECK_ENDSTOPS
@@ -342,8 +352,17 @@ ISR(TIMER1_COMPA_vect)
       }
     }
     else { // +direction
-      #if !defined COREXY  //NOT COREXY
-        WRITE(X_DIR_PIN,!INVERT_X_DIR);
+      #if !defined COREXY  //NOT COREXY      
+	//WRITE(X_DIR_PIN,!INVERT_X_DIR);
+	//EXPLICIT SET X_DIR PIN	
+	if(!INVERT_X_DIR){  	  
+	  //if not inverting, set X_DIR High for X+
+	  STEPPING_PORT |= 1<<EX_X_DIRECTION_BIT;
+	}
+	else{
+	  //else, set X_DIR Low for X+
+	  STEPPING_PORT &= ~(1<<EX_X_DIRECTION_BIT);	  
+	}//end EXPLICIT
       #endif
       
       count_direction[X_AXIS]=1;
@@ -363,7 +382,16 @@ ISR(TIMER1_COMPA_vect)
 
     if ((out_bits & (1<<Y_AXIS)) != 0) {   // -direction
       #if !defined COREXY  //NOT COREXY
-        WRITE(Y_DIR_PIN,INVERT_Y_DIR);
+        //WRITE(Y_DIR_PIN,INVERT_Y_DIR);
+	//EXPLICIT SET Y_DIR PIN
+	if(INVERT_Y_DIR){  	  
+	  //if inverting, set Y_DIR High for Y-
+	  STEPPING_PORT |= 1<<EX_Y_DIRECTION_BIT;
+	}
+	else{
+	  //else, set Y_DIR Low for Y-
+	  STEPPING_PORT &= ~(1<<EX_Y_DIRECTION_BIT);	  
+	}//end EXPLICIT
       #endif
       count_direction[Y_AXIS]=-1;
       CHECK_ENDSTOPS
@@ -381,7 +409,15 @@ ISR(TIMER1_COMPA_vect)
     }
     else { // +direction
       #if !defined COREXY  //NOT COREXY
-        WRITE(Y_DIR_PIN,!INVERT_Y_DIR);
+        //WRITE(Y_DIR_PIN,!INVERT_Y_DIR);
+	if(!INVERT_Y_DIR){  	  
+	  //if not inverting, set Y_DIR High for Y+
+	  STEPPING_PORT |= 1<<EX_Y_DIRECTION_BIT;
+	}
+	else{
+	  //else, set X_DIR Low for Y+
+	  STEPPING_PORT &= ~(1<<EX_Y_DIRECTION_BIT);	  
+	}//end EXPLICIT
       #endif
       count_direction[Y_AXIS]=1;
       CHECK_ENDSTOPS
@@ -420,7 +456,16 @@ ISR(TIMER1_COMPA_vect)
     
     
     if ((out_bits & (1<<Z_AXIS)) != 0) {   // -direction
-      WRITE(Z_DIR_PIN,INVERT_Z_DIR);
+      //WRITE(Z_DIR_PIN,INVERT_Z_DIR);
+	//EXPLICIT SET Z_DIR PIN
+	if(INVERT_Z_DIR){  	  
+	  //if inverting, set Z_DIR High for Z-
+	  STEPPING_PORT |= 1<<EX_Z_DIRECTION_BIT;
+	}
+	else{
+	  //else, set Z_DIR Low for Z-
+	  STEPPING_PORT &= ~(1<<EX_Z_DIRECTION_BIT);	  
+	}//end EXPLICIT
       
 	  #ifdef Z_DUAL_STEPPER_DRIVERS
         WRITE(Z2_DIR_PIN,INVERT_Z_DIR);
@@ -441,7 +486,16 @@ ISR(TIMER1_COMPA_vect)
       }
     }
     else { // +direction
-      WRITE(Z_DIR_PIN,!INVERT_Z_DIR);
+      //WRITE(Z_DIR_PIN,!INVERT_Z_DIR);
+	//EXPLICIT SET Z_DIR PIN
+	if(!INVERT_Z_DIR){  	  
+	  //if not inverting, set Z_DIR High for Z+
+	  STEPPING_PORT |= 1<<EX_Z_DIRECTION_BIT;
+	}
+	else{
+	  //else, set Z_DIR Low for Z+
+	  STEPPING_PORT &= ~(1<<EX_Z_DIRECTION_BIT);	  
+	}//end EXPLICIT
 
 	  #ifdef Z_DUAL_STEPPER_DRIVERS
         WRITE(Z2_DIR_PIN,!INVERT_Z_DIR);
@@ -496,18 +550,26 @@ ISR(TIMER1_COMPA_vect)
       #if !defined COREXY      
         counter_x += current_block->steps_x;
         if (counter_x > 0) {
-          WRITE(X_STEP_PIN, !INVERT_X_STEP_PIN);
+          //WRITE(X_STEP_PIN, !INVERT_X_STEP_PIN);
+	  //PORTC = PORTC ^ B00100000; //Explicit Step X XOR
+	  STEPPING_PORT ^= 1<<EX_X_STEP_BIT;
           counter_x -= current_block->step_event_count;
           count_position[X_AXIS]+=count_direction[X_AXIS];   
-          WRITE(X_STEP_PIN, INVERT_X_STEP_PIN);
+          //WRITE(X_STEP_PIN, INVERT_X_STEP_PIN);
+	  //PORTC = PORTC ^ B00100000; //Explicit Step X XOR
+	  STEPPING_PORT ^= 1<<EX_X_STEP_BIT;
         }
   
         counter_y += current_block->steps_y;
         if (counter_y > 0) {
-          WRITE(Y_STEP_PIN, !INVERT_Y_STEP_PIN);
+          //PORTC = PORTC ^ B01000000; //Explicit Step Y XOR
+  	  STEPPING_PORT ^= 1<<EX_Y_STEP_BIT;
+	  //WRITE(Y_STEP_PIN, !INVERT_Y_STEP_PIN);
           counter_y -= current_block->step_event_count; 
           count_position[Y_AXIS]+=count_direction[Y_AXIS]; 
-          WRITE(Y_STEP_PIN, INVERT_Y_STEP_PIN);
+          //WRITE(Y_STEP_PIN, INVERT_Y_STEP_PIN);
+          //PORTC = PORTC ^ B01000000; //Explicit Step Y XOR
+  	  STEPPING_PORT ^= 1<<EX_Y_STEP_BIT;
         }
       #endif
   
@@ -561,15 +623,18 @@ ISR(TIMER1_COMPA_vect)
       
       counter_z += current_block->steps_z;
       if (counter_z > 0) {
-        WRITE(Z_STEP_PIN, !INVERT_Z_STEP_PIN);
-        
+        //WRITE(Z_STEP_PIN, !INVERT_Z_STEP_PIN);
+        //PORTC = PORTC ^ B10000000; //Explicit Step Z XOR
+  	  STEPPING_PORT ^= 1<<EX_Z_STEP_BIT;
 		#ifdef Z_DUAL_STEPPER_DRIVERS
           WRITE(Z2_STEP_PIN, !INVERT_Z_STEP_PIN);
         #endif
         
         counter_z -= current_block->step_event_count;
         count_position[Z_AXIS]+=count_direction[Z_AXIS];
-        WRITE(Z_STEP_PIN, INVERT_Z_STEP_PIN);
+        //WRITE(Z_STEP_PIN, INVERT_Z_STEP_PIN);
+        //PORTC = PORTC ^ B10000000; //Explicit Step Z XOR
+  	  STEPPING_PORT ^= 1<<EX_Z_STEP_BIT;
         
 		#ifdef Z_DUAL_STEPPER_DRIVERS
           WRITE(Z2_STEP_PIN, INVERT_Z_STEP_PIN);
@@ -714,6 +779,17 @@ ISR(TIMER1_COMPA_vect)
 
 void st_init()
 {
+  //EXPLICIT BECAUSE SOMETHING IS BROKEN.
+  DDRC = DDRC | B11111111; //DDRC Outputs
+  PORTC = PORTC | B00000100; //ENABLE STEPPERS
+
+  //SET STEPPER ENABLE LOW AND RESET PIN HIGH.
+  STEPPERS_ENABLE_DDR |= 1<<STEPPERS_ENABLE_BIT;
+  STEPPERS_RESET_DDR |= 1<<STEPPERS_RESET_BIT;
+  STEPPERS_ENABLE_PORT &= ~(1<<STEPPERS_ENABLE_BIT);
+  STEPPERS_RESET_PORT |= 1<<STEPPERS_RESET_BIT;
+  
+
   //Initialize Dir Pins
   #if X_DIR_PIN > -1
     SET_OUTPUT(X_DIR_PIN);
@@ -819,17 +895,17 @@ void st_init()
   #if (X_STEP_PIN > -1) 
     SET_OUTPUT(X_STEP_PIN);
     WRITE(X_STEP_PIN,INVERT_X_STEP_PIN);
-    if(!X_ENABLE_ON) WRITE(X_ENABLE_PIN,HIGH);
+//    if(!X_ENABLE_ON) WRITE(X_ENABLE_PIN,HIGH);
   #endif  
   #if (Y_STEP_PIN > -1) 
     SET_OUTPUT(Y_STEP_PIN);
     WRITE(Y_STEP_PIN,INVERT_Y_STEP_PIN);
-    if(!Y_ENABLE_ON) WRITE(Y_ENABLE_PIN,HIGH);
+//    if(!Y_ENABLE_ON) WRITE(Y_ENABLE_PIN,HIGH);
   #endif  
   #if (Z_STEP_PIN > -1) 
     SET_OUTPUT(Z_STEP_PIN);
     WRITE(Z_STEP_PIN,INVERT_Z_STEP_PIN);
-    if(!Z_ENABLE_ON) WRITE(Z_ENABLE_PIN,HIGH);
+//    if(!Z_ENABLE_ON) WRITE(Z_ENABLE_PIN,HIGH);
     
     #if defined(Z_DUAL_STEPPER_DRIVERS) && (Z2_STEP_PIN > -1)
       SET_OUTPUT(Z2_STEP_PIN);

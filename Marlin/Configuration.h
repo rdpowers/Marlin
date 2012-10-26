@@ -32,10 +32,34 @@
 // Gen3+ =9
 // Megatronics =70
 
+//CCHS PINOUT - SEE pins.h
 #ifndef MOTHERBOARD
 #define MOTHERBOARD 99
 #endif
 
+//CCHS Motor controllers are all enabled by one pin, active low.
+//Used in stepper.cpp - st_init
+#define STEPPERS_ENABLE_DDR     DDRC
+#define STEPPERS_ENABLE_PORT    PORTC
+#define STEPPERS_ENABLE_BIT         3 //PC3
+
+//CCHS Motor controllers have a reset pin that needs to be high for operation. 
+//Used in stepper.cpp - st_init
+#define STEPPERS_RESET_DDR     DDRC
+#define STEPPERS_RESET_PORT    PORTC
+#define STEPPERS_RESET_BIT         4 //PC4
+
+//CCHS BOARD DOESN'T SEEM TO PLAY NICE WITH WRITE() AS IMPLEMENTED, I HAVE NO IDEA WHY. EXPLICITLY STEPPING IN STEPPER.CPP FOR NOW. NEED TO CHECK DIR PINS AS WELL.
+
+#define STEPPING_DDR       DDRC
+#define STEPPING_PORT      PORTC
+#define EX_X_STEP_BIT           5 //PC5
+#define EX_Y_STEP_BIT           6 //PC6
+#define EX_Z_STEP_BIT           7 //PC7
+#define EX_X_DIRECTION_BIT      2 //PC2
+#define EX_Y_DIRECTION_BIT      1 //PC1
+#define EX_Z_DIRECTION_BIT      0 //PC0
+//END CUSTOM EXPLICIT STEPPING CONFIG
 
 
 //===========================================================================
@@ -217,7 +241,7 @@ const bool Z_ENDSTOPS_INVERTING = true; // set to true to invert the logic of th
 
 #define INVERT_X_DIR true    // for Mendel set to false, for Orca set to true
 #define INVERT_Y_DIR false    // for Mendel set to true, for Orca set to false
-#define INVERT_Z_DIR true     // for Mendel set to false, for Orca set to true
+#define INVERT_Z_DIR false     // for Mendel set to false, for Orca set to true
 #define INVERT_E0_DIR false   // for direct drive extruder v9 set to true, for geared extruder set to false
 #define INVERT_E1_DIR false    // for direct drive extruder v9 set to true, for geared extruder set to false
 #define INVERT_E2_DIR false   // for direct drive extruder v9 set to true, for geared extruder set to false
@@ -257,7 +281,7 @@ const bool Z_ENDSTOPS_INVERTING = true; // set to true to invert the logic of th
 
 // default settings 
 
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {78.7402,78.7402,200*8/3,760*1.1}  // default steps per unit for ultimaker 
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {506,506,506,760*1.1}  // default steps per unit for ultimaker 
 #define DEFAULT_MAX_FEEDRATE          {500, 500, 5, 45}    // (mm/sec)    
 #define DEFAULT_MAX_ACCELERATION      {9000,9000,100,10000}    // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for skeinforge 40+, for older versions raise them a lot.
 

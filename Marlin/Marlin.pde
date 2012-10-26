@@ -635,8 +635,10 @@ void process_commands()
     case 0: // G0 -> G1
     case 1: // G1
       if(Stopped == false) {
-        get_coordinates(); // For X Y Z E F
-        prepare_move();
+//	SERIAL_PROTOCOLLNPGM("G0 or G1 seen.");        
+	get_coordinates(); // For X Y Z E F
+	        
+	prepare_move();
         //ClearToSend();
         return;
       }
