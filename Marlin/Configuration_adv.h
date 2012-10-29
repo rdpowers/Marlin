@@ -211,7 +211,7 @@
 #endif // ADVANCE
 
 // Arc interpretation settings:
-#define MM_PER_ARC_SEGMENT .1
+#define MM_PER_ARC_SEGMENT .05
 #define N_ARC_CORRECTION 25
 
 const int dropsegments=5; //everything with less than this number of steps will be ignored as move and joined with the next movement

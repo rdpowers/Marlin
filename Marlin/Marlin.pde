@@ -40,6 +40,7 @@
 #include "language.h"
 #include "pins_arduino.h"
 
+
 #define VERSION_STRING  "1.0.0"
 
 // look here for descriptions of gcodes: http://linuxcnc.org/handbook/gcode/g-code.html
@@ -335,9 +336,9 @@ void setup()
   plan_init();  // Initialize planner;
   st_init();    // Initialize stepper;
   wd_init();
-  setup_photpin();
+  //setup_photpin();
   
-  LCD_INIT;
+  //LCD_INIT;
 }
 
 
@@ -376,9 +377,9 @@ void loop()
   }
   //check heater every n milliseconds
   //manage_heater();
-  manage_inactivity();
-  checkHitEndstops();
-  LCD_STATUS;
+  //manage_inactivity();
+  //checkHitEndstops();
+  //LCD_STATUS;
 }
 
 void get_command() 
@@ -628,6 +629,10 @@ void process_commands()
   unsigned long codenum; //throw away variable
   char *starpos = NULL;
 
+	//see if a delay helps...
+  //_delay_ms(90); it does. moved to prepare_arc
+
+
   if(code_seen('G'))
   {
     switch((int)code_value())
@@ -635,7 +640,6 @@ void process_commands()
     case 0: // G0 -> G1
     case 1: // G1
       if(Stopped == false) {
-//	SERIAL_PROTOCOLLNPGM("G0 or G1 seen.");        
 	get_coordinates(); // For X Y Z E F
 	        
 	prepare_move();
@@ -1534,6 +1538,10 @@ void ClearToSend()
 
 void get_coordinates()
 {
+  //delay that seems to help program overflow.
+  //dirty. see prepare_arc_movement for more dirt.
+  _delay_ms(50);
+
   bool seen[4]={false,false,false,false};
   for(int8_t i=0; i < NUM_AXIS; i++) {
     if(code_seen(axis_codes[i])) 
@@ -1643,6 +1651,15 @@ void prepare_move()
 }
 
 void prepare_arc_move(char isclockwise) {
+  //going to delay for feedrate/4 ms 
+  //for(int8_t i=feedrate/4; i>0; i--){
+  //  _delay_ms(1);
+  //}
+  
+  //hardcode delay 110ms
+  //Dirty. Very dirty.
+  _delay_ms(110);
+  
   float r = hypot(offset[X_AXIS], offset[Y_AXIS]); // Compute arc radius for mc_arc
 
   // Trace the arc
