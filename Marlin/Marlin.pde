@@ -1540,7 +1540,7 @@ void get_coordinates()
 {
   //delay that seems to help program overflow.
   //dirty. see prepare_arc_movement for more dirt.
-  _delay_ms(50);
+  _delay_ms(75);
 
   bool seen[4]={false,false,false,false};
   for(int8_t i=0; i < NUM_AXIS; i++) {
