@@ -1,3 +1,36 @@
+CCHS Particulars
+===================
+This branch is for testing and use of the LaserCutter board designed by Luke Weston for controlling the CCHS LaserCutter.
+
+Relevant ATMega2560 Pins. Set in Pins.h, #define motherboard 33
+
+X-Dir Pin 25,PB6,Arduino D12
+Y-Dir Pin 24,PB5, D11
+Z-Dir Pin 7,PE5, D3
+
+X-Step Pin 18,PH6,D9
+Y-Step Pin 17,PH5,D8
+Z-Step Pin 6,PE4,D2
+
+X-Home Pin 96,PF1,A1 (ADC1)
+Y-Home Pin 94,PF3,A3 (ADC3)
+Z-Home Pin 92,PF5,A5 (ADC5/TMS)
+
+
+
+~Laser EN Pin 16,PH4,D7 (OC4B)
+Laser PWM Pin 15,PH3,D6 (OC4A)
+
+XBee TX Pin 13,PH1,D16 (TXD2)
+XBee RX Pin 12,PH0,D17 (RXD2)
+
+~Door Pin93,PF4
+
+~ = Active Low
+
+Upstream MD
+--------
+
 WARNING: 
 --------
 THIS IS RELEASE CANDIDATE 2 FOR MARLIN 1.0.0
