@@ -359,9 +359,10 @@
 
 #if MOTHERBOARD == 33
 #define FAN_PIN            6 // Kludge to get PWM to laser
+//#define FAN_PIN            -1
 #define LASER_EN_LOW       7 // Laser EN active low.
 #else
-#define FAN_PIN            4 // IO pin. Buffer needed
+#define FAN_PIN            -1 // IO pin. Buffer needed
 #endif
 #define PS_ON_PIN          -1
 
@@ -379,10 +380,10 @@
 #endif
 #define HEATER_2_PIN       -1   
 #define TEMP_0_PIN         13   // ANALOG NUMBERING
-#define TEMP_1_PIN         15   // ANALOG NUMBERING
+#define TEMP_1_PIN         12   // ANALOG NUMBERING
 #define TEMP_2_PIN         -1   // ANALOG NUMBERING
-#define HEATER_BED_PIN     8    // BED
-#define TEMP_BED_PIN       14   // ANALOG NUMBERING
+#define HEATER_BED_PIN     12    // BED
+#define TEMP_BED_PIN       12   // ANALOG NUMBERING
 
 #ifdef ULTRA_LCD
 

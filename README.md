@@ -24,7 +24,7 @@ Laser PWM Pin 15,PH3,D6 (OC4A)
 XBee TX Pin 13,PH1,D16 (TXD2)
 XBee RX Pin 12,PH0,D17 (RXD2)
 
-~Door Pin93,PF4
+~Door Pin93,PF4,A4 (ADC4/TMK)
 
 ~ = Active Low
 

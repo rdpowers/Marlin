@@ -364,7 +364,7 @@ void setup()
   }
   
   // loads data from EEPROM if available else uses defaults (and resets step acceleration rate)
-  Config_RetrieveSettings(); 
+  Config_RetrieveSettings();
 
   tp_init();    // Initialize temperature loop 
   plan_init();  // Initialize planner;
@@ -373,6 +373,13 @@ void setup()
   setup_photpin();
   
   lcd_init();
+  
+  //This is the Laser enable pin (7)
+  SET_OUTPUT(LASER_EN_LOW);
+  //THIS is the PWM Laser Control.
+  //SET_OUTPUT(6);
+  
+  pinMode(A4, INPUT);
   
   #ifdef CONTROLLERFAN_PIN
     SET_OUTPUT(CONTROLLERFAN_PIN); //Set pin used for driver cooling fan
@@ -1157,6 +1164,7 @@ void process_commands()
 
     #if FAN_PIN > -1
       case 106: //M106 Fan On
+        digitalWrite(LASER_EN_LOW, LOW);
         if (code_seen('S')){
            fanSpeed=constrain(code_value(),0,255);
         }
@@ -1166,6 +1174,7 @@ void process_commands()
         break;
       case 107: //M107 Fan Off
         fanSpeed = 0;
+        digitalWrite(LASER_EN_LOW, HIGH);
         break;
     #endif //FAN_PIN
 
