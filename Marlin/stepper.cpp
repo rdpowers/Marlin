@@ -34,6 +34,8 @@
 #endif
 
 
+
+
 //===========================================================================
 //=============================public variables  ============================
 //===========================================================================
@@ -519,6 +521,7 @@ ISR(TIMER1_COMPA_vect)
       #if !defined COREXY      
         counter_x += current_block->steps_x;
         if (counter_x > 0) {
+//          SERIAL_ECHOPGM("Stepping X!");
           WRITE(X_STEP_PIN, !INVERT_X_STEP_PIN);
           counter_x -= current_block->step_event_count;
           count_position[X_AXIS]+=count_direction[X_AXIS];   
