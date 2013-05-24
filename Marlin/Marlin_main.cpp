@@ -328,7 +328,7 @@ void setup()
   setup_killpin(); 
   setup_powerhold();
   MYSERIAL.begin(BAUDRATE);
-  SERIAL_PROTOCOLLNPGM("start");
+  SERIAL_PROTOCOLLNPGM("start Grbl :P");
   SERIAL_ECHO_START;
 
   // Check startup - does nothing if bootloader sets MCUSR to 0
@@ -451,10 +451,25 @@ void get_command()
         comment_mode = false; //for new command
         return;
       }
+      
+
+      
       cmdbuffer[bufindw][serial_count] = 0; //terminate string
+     
+      
       if(!comment_mode){
         comment_mode = false; //for new command
         fromsd[bufindw] = false;
+
+        //cheap hack to get Marlin working with GrblHoming GUI.
+        if(strchr(cmdbuffer[bufindw], 0x18) != NULL){
+          SERIAL_PROTOCOLLNPGM("Grbl");
+          SERIAL_PROTOCOLLNPGM("ok");
+          serial_count = 0;
+          return;
+        } 
+        
+        
         if(strchr(cmdbuffer[bufindw], 'N') != NULL)
         {
           strchr_pointer = strchr(cmdbuffer[bufindw], 'N');
