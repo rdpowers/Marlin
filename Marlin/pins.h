@@ -326,13 +326,13 @@
 #define X_STEP_PIN         9
 #define X_DIR_PIN          12
 #define X_ENABLE_PIN       -1
-#define X_MIN_PIN          -1
+#define X_MIN_PIN          55
 #define X_MAX_PIN          -1
 
 #define Y_STEP_PIN         8
 #define Y_DIR_PIN          11
 #define Y_ENABLE_PIN       -1
-#define Y_MIN_PIN          -1
+#define Y_MIN_PIN          57
 #define Y_MAX_PIN          -1
 
 #define Z_STEP_PIN         2
