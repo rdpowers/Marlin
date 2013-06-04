@@ -183,7 +183,7 @@ const char axis_codes[NUM_AXIS] = {'X', 'Y', 'Z', 'E'};
 static float destination[NUM_AXIS] = {  0.0, 0.0, 0.0, 0.0};
 static float offset[3] = {0.0, 0.0, 0.0};
 static bool home_all_axis = true;
-static float feedrate = 1500.0, next_feedrate, saved_feedrate;
+static float feedrate = DEFAULT_G0_JOG, next_feedrate, saved_feedrate;
 static long gcode_N, gcode_LastN, Stopped_gcode_LastN = 0;
 
 static bool relative_mode = false;  //Determines Absolute or Relative Coordinates
@@ -700,6 +700,9 @@ void process_commands()
     switch((int)code_value())
     {
     case 0: // G0 -> G1
+	#ifdef DEFAULT_G0_JOG
+	feedrate = DEFAULT_G0_JOG;
+	#endif //DEFAULT_G0_JOG
     case 1: // G1
       if(Stopped == false) {
         get_coordinates(); // For X Y Z E F
@@ -1179,6 +1182,7 @@ void process_commands()
 
     #if FAN_PIN > -1
       case 106: //M106 Fan On
+        st_synchronize();//Wait to get to where we're turning on the laser.
         digitalWrite(LASER_EN_LOW, LOW);
         if (code_seen('S')){
            fanSpeed=constrain(code_value(),0,255);
@@ -1188,6 +1192,7 @@ void process_commands()
         }
         break;
       case 107: //M107 Fan Off
+        st_synchronize();//Wait to get where we're turning off the laser.
         fanSpeed = 0;
         digitalWrite(LASER_EN_LOW, HIGH);
         break;
