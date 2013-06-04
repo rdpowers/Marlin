@@ -183,7 +183,7 @@ const char axis_codes[NUM_AXIS] = {'X', 'Y', 'Z', 'E'};
 static float destination[NUM_AXIS] = {  0.0, 0.0, 0.0, 0.0};
 static float offset[3] = {0.0, 0.0, 0.0};
 static bool home_all_axis = true;
-static float feedrate = DEFAULT_G0_JOG, next_feedrate, saved_feedrate;
+static float feedrate = DEFAULT_G0_JOG, next_feedrate, saved_feedrate = DEFAULT_G0_JOG;
 static long gcode_N, gcode_LastN, Stopped_gcode_LastN = 0;
 
 static bool relative_mode = false;  //Determines Absolute or Relative Coordinates
@@ -703,8 +703,15 @@ void process_commands()
 	#ifdef DEFAULT_G0_JOG
 	feedrate = DEFAULT_G0_JOG;
 	#endif //DEFAULT_G0_JOG
+        if(Stopped == false) {
+          get_coordinates(); // For X Y Z E F
+          prepare_move();
+          //ClearToSend();
+          return;
+        }
     case 1: // G1
       if(Stopped == false) {
+        feedrate = saved_feedrate;
         get_coordinates(); // For X Y Z E F
         prepare_move();
         //ClearToSend();
@@ -1804,7 +1811,7 @@ void process_commands()
         make_move = true;
         next_feedrate = code_value();
         if(next_feedrate > 0.0) {
-          feedrate = next_feedrate;
+          feedrate = saved_feedrate = next_feedrate;
         }
       }
       #if EXTRUDERS > 1
@@ -1876,7 +1883,7 @@ void get_coordinates()
   }
   if(code_seen('F')) {
     next_feedrate = code_value();
-    if(next_feedrate > 0.0) feedrate = next_feedrate;
+    if(next_feedrate > 0.0) feedrate = saved_feedrate = next_feedrate;
   }
   #ifdef FWRETRACT
   if(autoretract_enabled)
@@ -1976,6 +1983,7 @@ void prepare_move()
 void prepare_arc_move(char isclockwise) {
   float r = hypot(offset[X_AXIS], offset[Y_AXIS]); // Compute arc radius for mc_arc
 
+  feedrate = saved_feedrate; //Change G2/3 to use G1 command feedrate.
   // Trace the arc
   mc_arc(current_position, destination, offset, X_AXIS, Y_AXIS, Z_AXIS, feedrate*feedmultiply/60/100.0, r, isclockwise, active_extruder);
   
