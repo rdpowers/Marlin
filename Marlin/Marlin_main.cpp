@@ -1188,6 +1188,8 @@ void process_commands()
         break;
 
     #if FAN_PIN > -1
+      case 3: //M3&M4 Spindle controls do laser as well.
+      case 4:
       case 106: //M106 Fan On
         st_synchronize();//Wait to get to where we're turning on the laser.
         digitalWrite(LASER_EN_LOW, LOW);
@@ -1198,6 +1200,7 @@ void process_commands()
           fanSpeed=255;			
         }
         break;
+      case 5: //M5 Spindle controls do laser as well.
       case 107: //M107 Fan Off
         st_synchronize();//Wait to get where we're turning off the laser.
         fanSpeed = 0;

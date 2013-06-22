@@ -22,7 +22,7 @@
 #define BAUDRATE 115200
 
 //This will set the feedrate for all G0 commands.
-#define DEFAULT_G0_JOG 15000.0
+#define DEFAULT_G0_JOG 12000.0
 
 //// The following define selects which electronics board you have. Please choose the one that matches your setup
 // 10 = Gen7 custom (Alfons3 Version) "https://github.com/Alfons3/Generation_7_Electronics"
@@ -289,7 +289,12 @@ const bool Z_ENDSTOPS_INVERTING = true; // set to true to invert the logic of th
 // default settings 
 
 //#define DEFAULT_AXIS_STEPS_PER_UNIT   {158.7301,158.7301,200*8/3,760*1.1}  // default steps per unit for ultimaker 
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {156.86175,156.86175,200*8/3,760*1.1}  // default steps per unit for ultimaker 
+//#define DEFAULT_AXIS_STEPS_PER_UNIT   {156.86175,156.86175,200*8/3,760*1.1}  // default steps per unit for ultimaker 
+//assume that laser is 0.15mm in diameter.
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {159.30234,159.30234,200*8/3,760*1.1}  // 3rd attempt at calibration.
+
+
+
 #define DEFAULT_MAX_FEEDRATE          {1500, 1500, 5, 25}    // (mm/sec)    
 #define DEFAULT_MAX_ACCELERATION      {9000,9000,100,10000}    // X, Y, Z, E maximum start speed for accelerated moves. E default values are good for skeinforge 40+, for older versions raise them a lot.
 
