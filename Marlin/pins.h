@@ -321,24 +321,75 @@
 
 #if MOTHERBOARD == 33 || MOTHERBOARD == 34
 
+/*
+These pins need to change to suit the new controller hardware.
+Luke W, 07/07/2015
+
+These are the pins to use now.
+
+X_STEP		17
+X_DIR		16
+X_ENABLE	48
+X_HOME		37
+
+There is only one home position sensor on each axis in the machine.
+We use the MIN sensors in Marlin - the MAX pins are not used.
+
+The motor-enable pins are active LOW - taking them HIGH will disable the motor drivers.
+These motor-enable lines might need to be set up into the right state.
+
+Y_STEP		54
+Y_DIR		47
+Y_ENABLE	55
+Y_HOME		35
+
+Z_STEP		57
+Z_DIR		56
+Z_ENABLE	62
+Z_HOME		33
+
+INDICATOR_LED	13
+General blinkenlight on the board,not really important, but it is there for debug if wanted.
+
+FAN1		7
+FAN2		8
+
+These are actual fan ports - not kludge for laser PWM.
+Would be nice to at least use FAN1 port for the fan.
+We can just turn it on and leave it high all the time.
+(Active high with fan on. PWM is possible.)
+
+LASER_ON		11
+
+Laser is ACTIVE HIGH now - note this might need to be flipped in the main code.
+
+LASER_PWM_POWER		12
+
+PWM laser power control. 100% duty cycle (active high) = full voltage.
+
+All the other stuff built into Marlin is not used - eg. it thinks there is extruder thermistors and motors etc
+They don't exist on this hardware.
+
+*/
+
 #define LARGE_FLASH        true
 
-#define X_STEP_PIN         9
-#define X_DIR_PIN          12
-#define X_ENABLE_PIN       -1
-#define X_MIN_PIN          55
+#define X_STEP_PIN         17 
+#define X_DIR_PIN          16
+#define X_ENABLE_PIN       48
+#define X_MIN_PIN          37 
 #define X_MAX_PIN          -1
 
-#define Y_STEP_PIN         8
-#define Y_DIR_PIN          11
-#define Y_ENABLE_PIN       -1
-#define Y_MIN_PIN          57
+#define Y_STEP_PIN         54 
+#define Y_DIR_PIN          47 
+#define Y_ENABLE_PIN       55
+#define Y_MIN_PIN          35
 #define Y_MAX_PIN          -1
 
-#define Z_STEP_PIN         2
-#define Z_DIR_PIN          3
-#define Z_ENABLE_PIN       -1
-#define Z_MIN_PIN          -1
+#define Z_STEP_PIN         57
+#define Z_DIR_PIN          56 
+#define Z_ENABLE_PIN       62
+#define Z_MIN_PIN          33
 #define Z_MAX_PIN          -1
 
 #define Z2_STEP_PIN        36
@@ -358,9 +409,9 @@
 #define LED_PIN            13
 
 #if MOTHERBOARD == 33
-#define FAN_PIN            6 // Kludge to get PWM to laser
+#define FAN_PIN            12 // Kludge to get PWM to laser
 //#define FAN_PIN            -1
-#define LASER_EN_LOW       7 // Laser EN active low.
+#define LASER_EN_LOW       11 // Laser EN active low.
 #else
 #define FAN_PIN            -1 // IO pin. Buffer needed
 #endif

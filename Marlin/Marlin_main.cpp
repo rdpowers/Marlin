@@ -1192,7 +1192,9 @@ void process_commands()
       case 4:
       case 106: //M106 Fan On
         st_synchronize();//Wait to get to where we're turning on the laser.
-        digitalWrite(LASER_EN_LOW, LOW);
+	// We flip the polarity of this signal due to a hardware change on the new hardware.
+	// Laser control is now Active-High. (Luke W, 07/07/2015)
+        digitalWrite(LASER_EN_LOW, HIGH);
         if (code_seen('S')){
            fanSpeed=constrain(code_value(),0,255);
         }
@@ -1204,7 +1206,8 @@ void process_commands()
       case 107: //M107 Fan Off
         st_synchronize();//Wait to get where we're turning off the laser.
         fanSpeed = 0;
-        digitalWrite(LASER_EN_LOW, HIGH);
+	// Change to Active-High for use with new hardware. LW 07/07/2015
+        digitalWrite(LASER_EN_LOW, LOW);
         break;
     #endif //FAN_PIN
 
